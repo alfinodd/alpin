@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en" class="dark scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes" />
+    <title>Testimonials - Alfin Pramana</title>
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+      rel="stylesheet"
+    />
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ["Inter", "sans-serif"],
+            },
+            colors: {
+              "electric-blue": "#00BFFF",
+              "cyan-glow": "#00FFFF",
+              "purple-glow": "#8B5CF6",
+              "pink-glow": "#EC4899",
+              "green-glow": "#10B981",
+              "orange-glow": "#F59E0B",
+              "dark-bg": "#0F0F23",
+              "dark-card": "#1A1A2E",
+              "light-bg": "#F1F5F9",
+              "light-card": "#FEFEFE",
+            },
+            animation: {
+              float: "float 6s ease-in-out infinite",
+              "fade-in": "fadeIn 0.8s ease-out",
+              "slide-up": "slideUp 0.6s ease-out",
+            },
+            keyframes: {
+              float: {
+                "0%, 100%": { transform: "translateY(0px)" },
+                "50%": { transform: "translateY(-8px)" },
+              },
+              fadeIn: {
+                from: { opacity: "0" },
+                to: { opacity: "1" },
+              },
+              slideUp: {
+                from: { transform: "translateY(100px)", opacity: "0" },
+                to: { transform: "translateY(0)", opacity: "1" },
+              },
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      .glass {
+        background: rgba(224, 224, 224, 0.3);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(70, 70, 70, 0.1);
+      }
+
+      .glass-light {
+        background: rgba(164, 153, 153, 0.8);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border: 1px solid rgba(0, 0, 0, 0.6);
+      }
+
+      .gradient-bg {
+        background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+        background-size: 400% 400%;
+        animation: gradient 15s ease infinite;
+      }
+
+      @keyframes gradient {
+        0%, 100% { background-position: 0% 50%; }
+        50% { background-position: 100% 50%; }
+      }
+
+      .project-card {
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        position: relative;
+        overflow: hidden;
+        opacity: 0;
+        transform: translateY(30px);
+      }
+
+      .project-card.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .project-card::before {
+        content: "";
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+          90deg,
+          transparent,
+          rgba(255, 255, 255, 0.1),
+          transparent
+        );
+        transition: left 0.5s;
+      }
+
+      .project-card:hover::before {
+        left: 100%;
+      }
+
+      .project-card:hover {
+        transform: translateY(-10px) scale(1.02);
+      }
+
+      .filter-btn {
+        transition: all 0.3s ease;
+      }
+
+      .filter-btn.active {
+        background: linear-gradient(to right, #00BFFF, #8B5CF6);
+        color: white;
+        box-shadow: 0 0 20px rgba(0, 191, 255, 0.5);
+      }
+
+      .project-card.hidden {
+        display: none;
+      }
+
+      .github-activity {
+        display: grid;
+        grid-template-columns: repeat(53, 1fr);
+        gap: 2px;
+        max-width: 100%;
+        overflow-x: auto;
+      }
+
+      .activity-day {
+        width: 10px;
+        height: 10px;
+        border-radius: 2px;
+        transition: all 0.2s ease;
+        min-width: 10px;
+      }
+
+      .activity-day:hover {
+        transform: scale(1.5);
+      }
+
+      .activity-0 {
+        background-color: #161b22;
+      }
+      .activity-1 {
+        background-color: #0e4429;
+      }
+      .activity-2 {
+        background-color: #006d32;
+      }
+      .activity-3 {
+        background-color: #26a641;
+      }
+      .activity-4 {
+        background-color: #39d353;
+      }
+
+      .testimonial-card {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.5s ease;
+      }
+
+      .testimonial-card.show {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      .star {
+        cursor: pointer;
+        transition: all 0.2s ease;
+        color: #4B5563;
+      }
+
+      .star.active {
+        color: #FBBF24;
+      }
+
+      .star:hover {
+        transform: scale(1.2);
+      }
+    </style>
+  </head>
+  <body class="bg-slate-50 dark:bg-dark-bg text-gray-700 dark:text-gray-200 font-sans transition-colors duration-300">
+    
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50 glass-light dark:glass transition-all duration-300">
+      <div class="container mx-auto px-4 sm:px-6 py-4">
+        <div class="flex justify-between items-center">
+          <a href="index.html" class="text-xl sm:text-2xl font-bold text-electric-blue">
+            <span class="gradient-bg bg-clip-text text-transparent">Alfin </span>
+            <span class="text-electric-blue">Pramana</span>
+          </a>
+
+          <nav class="hidden md:flex space-x-6 lg:space-x-8">
+            <a href="index.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">Home</a>
+            <a href="about.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">About</a>
+            <a href="projects.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">Projects</a>
+            <a href="skills.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">Skills</a>
+            <a href="services.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">Services</a>
+            <a href="testimonials.html" class="py-2 text-sm lg:text-base text-electric-blue font-semibold transition-colors">Testimonials</a>
+            <a href="contact.html" class="py-2 text-sm lg:text-base text-gray-800 dark:text-gray-200 hover:text-electric-blue dark:hover:text-electric-blue transition-colors">Contact</a>
+            <a
+              href="contact.html"
+              class="px-4 py-2 rounded-full bg-gradient-to-r from-electric-blue to-purple-glow text-white font-semibold text-sm lg:text-base hover:scale-105 hover:shadow-glow transition-all duration-300 flex items-center gap-2"
+            >
+              <i class="fas fa-comments"></i>
+              Let's Talk
+            </a>
+          </nav>
+
+          <button id="mobile-menu-btn" class="md:hidden text-gray-800 dark:text-gray-200 text-2xl">
+            <i class="fas fa-bars"></i>
+          </button>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 space-y-2">
+          <a href="index.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">Home</a>
+          <a href="about.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">About</a>
+          <a href="projects.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">Projects</a>
+          <a href="skills.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">Skills</a>
+          <a href="services.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">Services</a>
+          <a href="testimonials.html" class="block py-2 text-electric-blue font-semibold">Testimonials</a>
+          <a href="contact.html" class="block py-2 text-gray-800 dark:text-gray-200 hover:text-electric-blue transition-colors">Contact</a>
+          <a
+            href="contact.html"
+            class="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-electric-blue to-purple-glow text-white font-semibold text-sm hover:scale-105 transition-all duration-300"
+          >
+            <i class="fas fa-comments"></i>
+            Let's Talk
+          </a>
+        </div>
+      </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="pt-32 pb-20 text-center">
+      <h1 class="text-5xl font-bold mb-4 gradient-bg bg-clip-text text-transparent">Client Testimonials</h1>
+      <p class="text-xl text-gray-400 mb-8">What people say about working with me</p>
+      <button id="add-testimonial-btn" class="px-8 py-4 rounded-full bg-gradient-to-r from-electric-blue to-purple-glow text-white font-medium hover:scale-105 transition">
+        <i class="fas fa-plus mr-2"></i> Add Your Testimonial
+      </button>
+    </section>
+
+    <!-- Stats -->
+    <section class="py-12 bg-gray-800">
+      <div class="container mx-auto px-6 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+        <div class="glass rounded-xl p-6">
+          <div id="happy-clients" class="text-4xl font-bold text-electric-blue mb-2">3</div>
+          <div class="text-gray-400">Happy Clients</div>
+        </div>
+        <div class="glass rounded-xl p-6">
+          <div id="success-rate" class="text-4xl font-bold text-green-400 mb-2">100%</div>
+          <div class="text-gray-400">Success Rate</div>
+        </div>
+        <div class="glass rounded-xl p-6">
+          <div id="projects-completed" class="text-4xl font-bold text-purple-glow mb-2">5</div>
+          <div class="text-gray-400">Projects Completed</div>
+        </div>
+        <div class="glass rounded-xl p-6">
+          <div id="average-rating" class="text-4xl font-bold text-yellow-400 mb-2">5.0</div>
+          <div class="text-gray-400">Average Rating</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Testimonials Grid -->
+    <section class="py-20">
+      <div class="container mx-auto px-6">
+        <div id="testimonials-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"></div>
+      </div>
+    </section>
+
+    <!-- Modal Form -->
+    <div id="testimonial-modal" class="fixed inset-0 hidden bg-black/80 backdrop-blur-md z-50 items-center justify-center">
+      <div class="bg-dark-card rounded-3xl p-8 w-[90%] max-w-lg">
+        <div class="flex justify-between items-center mb-6">
+          <h3 class="text-2xl font-bold text-electric-blue">Add Testimonial</h3>
+          <button id="close-modal" class="text-gray-400 hover:text-white text-2xl"><i class="fas fa-times"></i></button>
+        </div>
+        <form id="testimonial-form" class="space-y-6">
+          <input id="client-name" placeholder="Your Name *" required class="w-full px-4 py-3 rounded-lg bg-transparent border-2 border-gray-700 focus:border-electric-blue focus:outline-none" />
+          <input id="client-position" placeholder="Position & Company *" required class="w-full px-4 py-3 rounded-lg bg-transparent border-2 border-gray-700 focus:border-electric-blue focus:outline-none" />
+          <input id="client-avatar" placeholder="Avatar URL (optional)" class="w-full px-4 py-3 rounded-lg bg-transparent border-2 border-gray-700 focus:border-electric-blue focus:outline-none" />
+          <div>
+            <label class="block mb-2 text-gray-300">Rating *</label>
+            <div class="star-rating flex gap-2 text-3xl" id="star-rating">
+              <i class="star fas fa-star" data-rating="1"></i>
+              <i class="star fas fa-star" data-rating="2"></i>
+              <i class="star fas fa-star" data-rating="3"></i>
+              <i class="star fas fa-star" data-rating="4"></i>
+              <i class="star fas fa-star" data-rating="5"></i>
+            </div>
+          </div>
+          <textarea id="testimonial-text" placeholder="Your Testimonial *" rows="4" required class="w-full px-4 py-3 rounded-lg bg-transparent border-2 border-gray-700 focus:border-electric-blue focus:outline-none resize-none"></textarea>
+          <button type="submit" class="w-full py-3 rounded-lg bg-gradient-to-r from-electric-blue to-purple-glow text-white font-medium hover:scale-105 transition">
+            Submit
+          </button>
+        </form>
+      </div>
+    </div>
+
+    <!-- Back to Top Button -->
+    <button
+      id="backToTop"
+      class="hidden fixed bottom-6 right-6 z-50 p-3 sm:p-4 rounded-full bg-gradient-to-r from-electric-blue to-purple-glow text-white shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:scale-110"
+      aria-label="Back to top"
+    >
+      <i class="fas fa-arrow-up"></i>
+    </button>
+
+    <script>
+      let selectedRating = 5;
+      let testimonials = [];
+
+      const modal = document.getElementById("testimonial-modal");
+      const form = document.getElementById("testimonial-form");
+      const grid = document.getElementById("testimonials-grid");
+
+      // Default testimonials
+      const defaultTestimonials = [
+        {
+          name: "Michael Chen",
+          position: "Network Engineer, Upaya Teknik",
+          rating: 5,
+          text: "Alfin showed great understanding of VoIP systems during our Briker setup project. He managed to configure extensions and call routing smoothly, making communication across devices more efficient and stable.",
+          avatar: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
+        },
+        {
+          name: "David Kim",
+          position: "IT Support, EduNet",
+          rating: 5,
+          text: "Alfin's work on configuring our school's Linux servers was excellent. From DHCP to DNS and FTP, everything ran seamlessly. His attention to detail and troubleshooting skills made the whole system reliable.",
+          avatar: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=100",
+        },
+        {
+          name: "Lisa Thompson",
+          position: "Network Engineer, BuzzNet",
+          rating: 5,
+          text: "When it comes to securing a network, Alfin knows his stuff. His implementation of IP and MAC filtering using Mikrotik Winbox helped us prevent unauthorized access effectively.",
+          avatar: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=100",
+        },
+      ];
+
+      // Load from localStorage
+      function loadTestimonials() {
+        const saved = localStorage.getItem("testimonials");
+        if (saved) {
+          testimonials = JSON.parse(saved);
+        } else {
+          testimonials = [...defaultTestimonials];
+          saveTestimonials();
+        }
+        renderTestimonials();
+        updateStats();
+      }
+
+      // Save to localStorage
+      function saveTestimonials() {
+        localStorage.setItem("testimonials", JSON.stringify(testimonials));
+      }
+
+      // Render testimonials
+      function renderTestimonials() {
+        grid.innerHTML = "";
+        testimonials.forEach((t) => {
+          const starsHtml = Array(t.rating).fill('<i class="fas fa-star"></i>').join("");
+          const card = document.createElement("div");
+          card.className = "testimonial-card glass rounded-2xl p-8";
+          card.innerHTML = `
+            <div class="flex items-center mb-6">
+              <div class="flex text-yellow-400 text-xl">${starsHtml}</div>
+              <span class="ml-2 text-gray-400">${t.rating}.0</span>
+            </div>
+            <p class="text-gray-300 mb-6 italic leading-relaxed">"${t.text}"</p>
+            <div class="flex items-center">
+              <img src="${t.avatar}" alt="${t.name}" class="w-12 h-12 rounded-full object-cover mr-4" />
+              <div>
+                <h4 class="font-semibold">${t.name}</h4>
+                <p class="text-sm text-gray-400">${t.position}</p>
+              </div>
+            </div>`;
+          grid.appendChild(card);
+          setTimeout(() => card.classList.add("show"), 100);
+        });
+      }
+
+      // Update Stats
+      function updateStats() {
+        const total = testimonials.length;
+        const avg = total > 0 ? (testimonials.reduce((s, t) => s + t.rating, 0) / total).toFixed(1) : 5.0;
+        document.getElementById("happy-clients").textContent = total;
+        document.getElementById("projects-completed").textContent = total + 2;
+        document.getElementById("average-rating").textContent = avg;
+      }
+
+      // Handle Add Modal
+      document.getElementById("add-testimonial-btn").onclick = () => {
+        modal.classList.remove("hidden");
+        modal.classList.add("flex");
+      };
+      
+      document.getElementById("close-modal").onclick = () => {
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        form.reset();
+      };
+
+      // Handle Stars
+      const stars = document.querySelectorAll(".star");
+      stars.forEach((star, i) => {
+        star.addEventListener("click", () => {
+          selectedRating = i + 1;
+          updateStars();
+        });
+      });
+      
+      function updateStars() {
+        stars.forEach((star, i) => {
+          star.classList.toggle("active", i < selectedRating);
+        });
+      }
+      updateStars();
+
+      // Submit Form
+      form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        const t = {
+          name: document.getElementById("client-name").value,
+          position: document.getElementById("client-position").value,
+          avatar: document.getElementById("client-avatar").value || "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=100",
+          text: document.getElementById("testimonial-text").value,
+          rating: selectedRating,
+        };
+        testimonials.push(t);
+        saveTestimonials();
+        renderTestimonials();
+        updateStats();
+        modal.classList.add("hidden");
+        modal.classList.remove("flex");
+        form.reset();
+        selectedRating = 5;
+        updateStars();
+      });
+
+      // Mobile Menu Toggle
+      const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+      const mobileMenu = document.getElementById("mobile-menu");
+      
+      mobileMenuBtn.addEventListener("click", () => {
+        mobileMenu.classList.toggle("hidden");
+      });
+
+      // Back to Top Button
+      const backToTopButton = document.getElementById("backToTop");
+
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 300) {
+          backToTopButton.classList.remove("hidden");
+        } else {
+          backToTopButton.classList.add("hidden");
+        }
+      });
+
+      backToTopButton.addEventListener("click", () => {
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      });
+
+      // Initialize
+      loadTestimonials();
+    </script>
+  </body>
+</html>

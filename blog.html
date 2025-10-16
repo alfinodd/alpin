@@ -1,0 +1,846 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>APRA Blog - Computer Network Engineering</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #2563eb;
+            --secondary: #1e40af;
+            --accent: #60a5fa;
+            --dark: #1e293b;
+            --light: #f8fafc;
+            --gray: #64748b;
+            --card-bg: #ffffff;
+            --text: #0f172a;
+            --border: #e2e8f0;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--light);
+            color: var(--text);
+            line-height: 1.6;
+            transition: all 0.3s ease;
+        }
+
+        /* Header */
+        header {
+            background: var(--card-bg);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 3px solid var(--primary);
+        }
+
+        nav {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--primary);
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .logo span {
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            align-items: center;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .nav-links a:hover {
+            transform: scale(1.05);
+        }
+
+        /* Hero Section */
+        .hero {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            color: white;
+            padding: 4rem 2rem;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            animation: fadeInDown 0.8s;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            opacity: 0.9;
+            animation: fadeInUp 0.8s;
+        }
+
+        /* Search & Filter Section */
+        .controls {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .search-box {
+            flex: 1;
+            min-width: 250px;
+            position: relative;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            border: 2px solid var(--border);
+            border-radius: 25px;
+            font-size: 1rem;
+            background: var(--card-bg);
+            color: var(--text);
+            transition: border-color 0.3s;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: var(--primary);
+        }
+
+        .filter-buttons {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .filter-btn {
+            padding: 0.6rem 1.2rem;
+            border: 2px solid var(--primary);
+            background: transparent;
+            color: var(--primary);
+            border-radius: 20px;
+            cursor: pointer;
+            font-weight: 500;
+            transition: all 0.3s;
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--primary);
+            color: white;
+        }
+
+        /* Blog Grid */
+        .container {
+            max-width: 1200px;
+            margin: 2rem auto;
+            padding: 0 2rem;
+        }
+
+        .blog-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            animation: fadeIn 0.5s;
+        }
+
+        .blog-card {
+            background: var(--card-bg);
+            border-radius: 15px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            cursor: pointer;
+        }
+
+        .blog-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 25px rgba(0,0,0,0.15);
+        }
+
+        .blog-image {
+            width: 100%;
+            height: 200px;
+            background: linear-gradient(135deg, var(--primary), var(--accent));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 4rem;
+            color: white;
+            overflow: hidden;
+        }
+
+        .blog-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .content-image {
+            width: 100%;
+            max-width: 600px;
+            height: auto;
+            border-radius: 10px;
+            margin: 1rem 0;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .blog-content {
+            padding: 1.5rem;
+        }
+
+        .blog-category {
+            display: inline-block;
+            padding: 0.3rem 0.8rem;
+            background: var(--primary);
+            color: white;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        .blog-title {
+            font-size: 1.4rem;
+            margin: 0.5rem 0;
+            color: var(--text);
+        }
+
+        .blog-excerpt {
+            color: var(--gray);
+            font-size: 0.95rem;
+            margin: 0.5rem 0;
+        }
+
+        .blog-meta {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid var(--border);
+            color: var(--gray);
+            font-size: 0.85rem;
+        }
+
+        /* Modal */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.7);
+            z-index: 1000;
+            animation: fadeIn 0.3s;
+        }
+
+        .modal.active {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal-content {
+            background: var(--card-bg);
+            max-width: 800px;
+            max-height: 90vh;
+            overflow-y: auto;
+            border-radius: 15px;
+            padding: 2rem;
+            margin: 1rem;
+            position: relative;
+            animation: slideUp 0.3s;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            font-size: 2rem;
+            cursor: pointer;
+            color: var(--gray);
+            background: none;
+            border: none;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s;
+        }
+
+        .close-modal:hover {
+            background: var(--border);
+            color: var(--text);
+        }
+
+        .modal-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .modal-body {
+            line-height: 1.8;
+        }
+
+        .modal-body h3 {
+            color: var(--primary);
+            margin: 1.5rem 0 1rem;
+        }
+
+        .modal-body ul {
+            margin-left: 1.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .modal-body li {
+            margin: 0.5rem 0;
+        }
+
+        /* Footer */
+        footer {
+            background: var(--card-bg);
+            padding: 2rem;
+            text-align: center;
+            margin-top: 4rem;
+            border-top: 3px solid var(--primary);
+        }
+
+        /* Animations */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+            }
+            to {
+                opacity: 1;
+            }
+        }
+
+        @keyframes fadeInDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes slideUp {
+            from {
+                transform: translateY(50px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+            }
+
+            .controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .blog-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        .no-results {
+            text-align: center;
+            padding: 3rem;
+            color: var(--gray);
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">
+                <span> APRA Blog</span>
+            </div>
+            <ul class="nav-links">
+                <li>
+                    <a href="index.html" style="background: var(--primary); color: white; padding: 0.5rem 1rem; border-radius: 20px; text-decoration: none;">← Back to Home</a>
+                </li>
+            </ul>
+        </nav>
+    </header>
+
+    <section class="hero">
+        <h1>Welcome To APRA Blog</h1>
+        <p>Where I share my journey through tech, networks, and random experiments</p>
+    </section>
+
+    <section class="controls">
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="🔍 Search articles..." onkeyup="filterPosts()">
+        </div>
+        <div class="filter-buttons">
+            <button class="filter-btn active" onclick="filterByCategory('all')">All</button>
+            <button class="filter-btn" onclick="filterByCategory('networking')">Networking</button>
+            <button class="filter-btn" onclick="filterByCategory('programming')">Programming</button>
+            <button class="filter-btn" onclick="filterByCategory('hardware')">Hardware</button>
+            <button class="filter-btn" onclick="filterByCategory('security')">Security</button>
+        </div>
+    </section>
+
+    <div class="container">
+        <div class="blog-grid" id="blogGrid"></div>
+        <div class="no-results" id="noResults" style="display: none;">
+            No articles found 😔
+        </div>
+    </div>
+
+    <div class="modal" id="modal" onclick="closeModal(event)">
+        <div class="modal-content" onclick="event.stopPropagation()">
+            <button class="close-modal" onclick="closeModal()">&times;</button>
+            <div class="modal-header" id="modalHeader"></div>
+            <div class="modal-body" id="modalBody"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2025 CNE Vocational School Blog. Made with ❤️ for learning</p>
+    </footer>
+
+    <script>
+        // Blog posts data
+        const blogPosts = [
+            {
+                id: 1,
+                title: "Understanding Network Topology",
+                category: "networking",
+                icon: "🌐",
+                image: "https://images.unsplash.com/photo-1558494949-ef010cbdcc31?w=500&h=300&fit=crop",
+                excerpt: "Learn about various network topology types such as star, ring, bus, and mesh along with their advantages and disadvantages.",
+                date: "Jan 15, 2025",
+                author: "CNE Admin",
+                content: `
+                    <h3>What is Network Topology?</h3>
+                    <p>Network topology is the arrangement or pattern in which computers and network devices are connected to form a network.</p>
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&fit=crop" class="content-image" alt="Network Topology">
+                    
+                    <h3>Types of Network Topology:</h3>
+                    <ul>
+                        <li><strong>Star Topology:</strong> All computers connect to a central point (switch/hub)</li>
+                        <li><strong>Ring Topology:</strong> Each computer connects in a circular formation</li>
+                        <li><strong>Bus Topology:</strong> All computers connect to a single main cable</li>
+                        <li><strong>Mesh Topology:</strong> Every computer connects to all other computers</li>
+                        <li><strong>Tree Topology:</strong> Combination of star and bus topology</li>
+                    </ul>
+                    <img src="https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&fit=crop" class="content-image" alt="Network Diagram">
+
+                    <h3>Advantages and Disadvantages</h3>
+                    <p>Each topology has different characteristics. Star topology is most popular because it's easy to configure and troubleshoot, but depends on the central hub/switch. Mesh topology is very reliable but expensive due to requiring many cables.</p>
+                `
+            },
+            {
+                id: 2,
+                title: "Python Programming Basics",
+                category: "programming",
+                icon: "🐍",
+                image: "https://images.unsplash.com/photo-1526379095098-d400fd0bf935?w=500&h=300&fit=crop",
+                excerpt: "Start learning Python from scratch! A programming language that's easy to understand and perfect for beginners.",
+                date: "Jan 12, 2025",
+                author: "Teacher",
+                content: `
+                    <h3>Why Python?</h3>
+                    <p>Python is an easy-to-learn programming language with simple syntax similar to English. Python is used for web development, data science, automation, and much more.</p>
+                    <img src="https://images.unsplash.com/photo-1515879218367-8466d910aaa4?w=600&fit=crop" class="content-image" alt="Python Code">
+                    
+                    <h3>Installing Python</h3>
+                    <p>Download Python from python.org and install. Make sure to check "Add Python to PATH" during installation.</p>
+                    <img src="https://images.unsplash.com/photo-1461749280684-dccba630e2f6?w=600&fit=crop" class="content-image" alt="Programming Setup">
+
+                    <h3>First Program</h3>
+                    <p>Open a text editor and create a hello.py file:</p>
+                    <code>print("Hello, World!")</code>
+                    
+                    <h3>Basic Data Types</h3>
+                    <ul>
+                        <li>String: "Hello CNE"</li>
+                        <li>Integer: 123</li>
+                        <li>Float: 3.14</li>
+                        <li>Boolean: True/False</li>
+                        <li>List: [1, 2, 3]</li>
+                    </ul>
+                `
+            },
+            {
+                id: 3,
+                title: "Building a PC from Scratch",
+                category: "hardware",
+                icon: "🔧",
+                image: "https://images.unsplash.com/photo-1591799264318-7e6ef8ddb7ea?w=500&h=300&fit=crop",
+                excerpt: "Complete guide to building your own computer, from selecting components to operating system installation.",
+                date: "Jan 10, 2025",
+                author: "CNE Admin",
+                content: `
+                    <h3>Required Components</h3>
+                    <img src="https://images.unsplash.com/photo-1587202372634-32705e3bf49c?w=600&fit=crop" class="content-image" alt="PC Components">
+                    <ul>
+                        <li>Processor (CPU)</li>
+                        <li>Motherboard</li>
+                        <li>RAM (Memory)</li>
+                        <li>Storage (HDD/SSD)</li>
+                        <li>Power Supply (PSU)</li>
+                        <li>Case</li>
+                        <li>GPU (Optional for gaming)</li>
+                    </ul>
+
+                    <h3>Assembly Steps</h3>
+                    <img src="https://images.unsplash.com/photo-1555617981-dac3880eac6e?w=600&fit=crop" class="content-image" alt="PC Assembly">
+                    <p>1. Carefully install CPU onto motherboard</p>
+                    <p>2. Install RAM into available slots</p>
+                    <p>3. Mount motherboard into case</p>
+                    <p>4. Install storage and PSU</p>
+                    <p>5. Connect all power and data cables</p>
+                    <p>6. Power on and install OS</p>
+
+                    <h3>Important Tips</h3>
+                    <p>Always ground yourself to avoid static electricity. Read the motherboard manual carefully. Use adequate thermal paste on the CPU.</p>
+                `
+            },
+            {
+                id: 4,
+                title: "Network Security and Cyber Security",
+                category: "security",
+                icon: "🔒",
+                image: "https://images.unsplash.com/photo-1563986768609-322da13575f3?w=500&h=300&fit=crop",
+                excerpt: "Learn the basics of network security, encryption, and how to protect systems from cyber attacks.",
+                date: "Jan 8, 2025",
+                author: "Teacher",
+                content: `
+                    <h3>Why is Security Important?</h3>
+                    <p>In the digital era, data is a valuable asset. Cyber attacks can result in huge losses, from data loss to financial damage.</p>
+                    <img src="https://images.unsplash.com/photo-1550751827-4bd374c3f58b?w=600&fit=crop" class="content-image" alt="Cybersecurity">
+
+                    <h3>Types of Threats</h3>
+                    <ul>
+                        <li>Malware (viruses, trojans, ransomware)</li>
+                        <li>Phishing and social engineering</li>
+                        <li>DDoS Attack</li>
+                        <li>SQL Injection</li>
+                        <li>Man-in-the-Middle Attack</li>
+                    </ul>
+                    <img src="https://images.unsplash.com/photo-1510511459019-5dda7724fd87?w=600&fit=crop" class="content-image" alt="Security Threats">
+
+                    <h3>How to Protect Your Network</h3>
+                    <ul>
+                        <li>Use strong and unique passwords</li>
+                        <li>Enable firewall</li>
+                        <li>Update systems regularly</li>
+                        <li>Use VPN for secure connections</li>
+                        <li>Backup data regularly</li>
+                        <li>Implement encryption</li>
+                    </ul>
+                `
+            },
+            {
+                id: 5,
+                title: "MikroTik Router Configuration",
+                category: "networking",
+                icon: "📡",
+                image: "https://images.unsplash.com/photo-1606904825846-647eb07f5be2?w=500&h=300&fit=crop",
+                excerpt: "Complete tutorial on basic MikroTik router configuration for LAN and internet networks.",
+                date: "Jan 5, 2025",
+                author: "CNE Admin",
+                content: `
+                    <h3>What is MikroTik?</h3>
+                    <p>MikroTik is a powerful router operating system widely used in Indonesia for ISPs and corporate networks.</p>
+                    <img src="https://images.unsplash.com/photo-1558618666-fcd25c85cd64?w=600&fit=crop" class="content-image" alt="Router Setup">
+
+                    <h3>Accessing MikroTik Router</h3>
+                    <p>Use Winbox for GUI access or SSH for CLI access. Default IP is usually 192.168.88.1 with username admin and no password.</p>
+                    <img src="https://images.unsplash.com/photo-1551808525-51a94da548ce?w=600&fit=crop" class="content-image" alt="Network Configuration">
+
+                    <h3>Basic Configuration</h3>
+                    <ul>
+                        <li>Setting IP Address for interfaces</li>
+                        <li>Configure Gateway and DNS</li>
+                        <li>Setup NAT Masquerade</li>
+                        <li>Create DHCP Server</li>
+                        <li>Firewall Filter Rules</li>
+                    </ul>
+
+                    <h3>Security Tips</h3>
+                    <p>Change default password, disable unused services, and update RouterOS to the latest version.</p>
+                `
+            },
+            {
+                id: 6,
+                title: "Building Websites with HTML, CSS, JavaScript",
+                category: "programming",
+                icon: "🌟",
+                image: "https://images.unsplash.com/photo-1547658719-da2b51169166?w=500&h=300&fit=crop",
+                excerpt: "Learn to create interactive websites from scratch using the three fundamental web development technologies.",
+                date: "Jan 3, 2025",
+                author: "Teacher",
+                content: `
+                    <h3>Three Pillars of Web Development</h3>
+                    <p><strong>HTML</strong> for structure, <strong>CSS</strong> for styling, and <strong>JavaScript</strong> for interactivity.</p>
+                    <img src="https://images.unsplash.com/photo-1498050108023-c5249f4df085?w=600&fit=crop" class="content-image" alt="Web Development">
+
+                    <h3>HTML Basics</h3>
+                    <p>HTML uses tags to create web page structure. Basic tags: html, head, body, div, p, h1-h6, a, img, etc.</p>
+                    <img src="https://images.unsplash.com/photo-1593720213428-28a5b9e94613?w=600&fit=crop" class="content-image" alt="HTML Code">
+
+                    <h3>CSS for Styling</h3>
+                    <p>CSS is used to beautify appearance. Can be inline, internal, or external stylesheet. Selectors: element, class, id.</p>
+
+                    <h3>JavaScript for Interactivity</h3>
+                    <p>JavaScript makes websites dynamic. Can manipulate DOM, handle events, fetch data from APIs, and much more.</p>
+
+                    <h3>First Project</h3>
+                    <p>Try creating a simple portfolio with HTML for structure, CSS for design, and JavaScript for smooth scroll animation!</p>
+                `
+            },
+            {
+                id: 7,
+                title: "Computer Hardware Troubleshooting",
+                category: "hardware",
+                icon: "🔨",
+                image: "https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=500&h=300&fit=crop",
+                excerpt: "Guide to solving common computer hardware problems, from computer won't start to blue screen issues.",
+                date: "Jan 1, 2025",
+                author: "CNE Admin",
+                content: `
+                    <h3>Common Problems and Solutions</h3>
+                    <img src="https://images.unsplash.com/photo-1581092918056-0c4c3acd3789?w=600&fit=crop" class="content-image" alt="Computer Repair">
+                    
+                    <h3>1. Computer Won't Start</h3>
+                    <ul>
+                        <li>Check power cable and ensure it's connected</li>
+                        <li>Test PSU with tester or paperclip method</li>
+                        <li>Check RAM, try reseating or test one by one</li>
+                        <li>Check motherboard power cables (24pin and 8pin CPU)</li>
+                    </ul>
+                    <img src="https://images.unsplash.com/photo-1597872200969-2b65d56bd16b?w=600&fit=crop" class="content-image" alt="Hardware Diagnostics">
+
+                    <h3>2. Blue Screen of Death (BSOD)</h3>
+                    <ul>
+                        <li>Note the error code that appears</li>
+                        <li>Update or rollback drivers</li>
+                        <li>Test RAM with MemTest86</li>
+                        <li>Check CPU and GPU temperature</li>
+                    </ul>
+
+                    <h3>3. Slow Computer</h3>
+                    <ul>
+                        <li>Upgrade to SSD</li>
+                        <li>Add more RAM</li>
+                        <li>Clean dust and replace thermal paste</li>
+                        <li>Uninstall unnecessary programs</li>
+                    </ul>
+                `
+            },
+            {
+                id: 8,
+                title: "Subnetting and IP Addressing",
+                category: "networking",
+                icon: "🔢",
+                image: "https://images.unsplash.com/photo-1551808525-51a94da548ce?w=500&h=300&fit=crop",
+                excerpt: "Understanding IP Address concepts, subnet masks, and how to perform subnetting to divide networks.",
+                date: "Dec 28, 2024",
+                author: "Teacher",
+                content: `
+                    <h3>What is an IP Address?</h3>
+                    <p>An IP Address is a unique address that identifies devices on a network. There are two versions: IPv4 (32-bit) and IPv6 (128-bit).</p>
+                    <img src="https://images.unsplash.com/photo-1551808525-4042a24e31f0?w=600&fit=crop" class="content-image" alt="IP Addressing">
+
+                    <h3>IP Address Classes</h3>
+                    <ul>
+                        <li><strong>Class A:</strong> 1.0.0.0 - 126.255.255.255 (for large networks)</li>
+                        <li><strong>Class B:</strong> 128.0.0.0 - 191.255.255.255 (for medium networks)</li>
+                        <li><strong>Class C:</strong> 192.0.0.0 - 223.255.255.255 (for small networks)</li>
+                    </ul>
+                    <img src="https://images.unsplash.com/photo-1544197150-b99a580bb7a8?w=600&fit=crop" class="content-image" alt="Network Subnet">
+
+                    <h3>Subnet Mask</h3>
+                    <p>Subnet mask is used to divide a network into smaller subnets. Example: 255.255.255.0 or /24 in CIDR notation.</p>
+
+                    <h3>How to Subnet</h3>
+                    <p>1. Determine the number of subnets or hosts needed</p>
+                    <p>2. Calculate required bits (2^n)</p>
+                    <p>3. Determine new subnet mask</p>
+                    <p>4. Calculate IP range for each subnet</p>
+                `
+            }
+        ];
+
+        let currentCategory = 'all';
+        let currentSearch = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderPosts();
+        });
+
+        // Render blog posts
+        function renderPosts() {
+            const grid = document.getElementById('blogGrid');
+            const noResults = document.getElementById('noResults');
+            
+            let filteredPosts = blogPosts;
+
+            // Filter by category
+            if (currentCategory !== 'all') {
+                filteredPosts = filteredPosts.filter(post => post.category === currentCategory);
+            }
+
+            // Filter by search
+            if (currentSearch) {
+                filteredPosts = filteredPosts.filter(post => 
+                    post.title.toLowerCase().includes(currentSearch.toLowerCase()) ||
+                    post.excerpt.toLowerCase().includes(currentSearch.toLowerCase())
+                );
+            }
+
+            if (filteredPosts.length === 0) {
+                grid.style.display = 'none';
+                noResults.style.display = 'block';
+            } else {
+                grid.style.display = 'grid';
+                noResults.style.display = 'none';
+                
+                grid.innerHTML = filteredPosts.map(post => `
+                    <div class="blog-card" onclick="openModal(${post.id})">
+                        <div class="blog-image">
+                            <img src="${post.image}" alt="${post.title}">
+                        </div>
+                        <div class="blog-content">
+                            <span class="blog-category">${post.category}</span>
+                            <h3 class="blog-title">${post.title}</h3>
+                            <p class="blog-excerpt">${post.excerpt}</p>
+                            <div class="blog-meta">
+                                <span>📅 ${post.date}</span>
+                                <span>✍️ ${post.author}</span>
+                            </div>
+                        </div>
+                    </div>
+                `).join('');
+            }
+        }
+
+        // Filter by category
+        function filterByCategory(category) {
+            currentCategory = category;
+            
+            // Update active button
+            document.querySelectorAll('.filter-btn').forEach(btn => {
+                btn.classList.remove('active');
+            });
+            event.target.classList.add('active');
+            
+            renderPosts();
+        }
+
+        // Search filter
+        function filterPosts() {
+            currentSearch = document.getElementById('searchInput').value;
+            renderPosts();
+        }
+
+        // Open modal
+        function openModal(id) {
+            const post = blogPosts.find(p => p.id === id);
+            if (!post) return;
+
+            const modal = document.getElementById('modal');
+            const header = document.getElementById('modalHeader');
+            const body = document.getElementById('modalBody');
+
+            header.innerHTML = `
+                <span class="blog-category">${post.category}</span>
+                <h2>${post.title}</h2>
+                <div class="blog-meta">
+                    <span>📅 ${post.date}</span>
+                    <span>✍️ ${post.author}</span>
+                </div>
+            `;
+
+            body.innerHTML = post.content;
+            modal.classList.add('active');
+            document.body.style.overflow = 'hidden';
+        }
+
+        // Close modal
+        function closeModal(e) {
+            if (!e || e.target.id === 'modal' || e.target.classList.contains('close-modal')) {
+                const modal = document.getElementById('modal');
+                modal.classList.remove('active');
+                document.body.style.overflow = 'auto';
+            }
+        }
+
+        // Close modal with ESC key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape') {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>

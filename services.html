@@ -162,6 +162,11 @@
               Let's Talk
             </a>
           </nav>
+          
+          <!-- Mobile Menu Button -->
+          <button id="mobile-menu-btn" class="md:hidden text-gray-800 dark:text-gray-200 focus:outline-none">
+            <i class="fas fa-bars text-2xl"></i>
+          </button>
 
         <!-- Mobile Menu -->
         <div id="mobile-menu" class="md:hidden hidden mt-4 pb-4 space-y-2">
@@ -520,11 +525,34 @@
     </footer>
 
     <script>
-        // Mobile menu
-        const mobileBtn = document.getElementById('mobile-menu-btn');
-        mobileBtn?.addEventListener('click', () => {
-            alert('Mobile menu - integrate with your existing menu');
-        });
+        // === MOBILE MENU HANDLER ===
+const mobileMenuBtn = document.getElementById("mobile-menu-btn");
+const mobileMenu = document.getElementById("mobile-menu");
+
+if (mobileMenuBtn && mobileMenu) {
+  // Toggle menu saat tombol ditekan
+  mobileMenuBtn.addEventListener("click", (e) => {
+    e.stopPropagation();
+    mobileMenu.classList.toggle("hidden");
+  });
+
+  // Tutup menu saat klik di luar menu
+  document.addEventListener("click", (e) => {
+    if (!mobileMenu.contains(e.target) && !mobileMenuBtn.contains(e.target)) {
+      mobileMenu.classList.add("hidden");
+    }
+  });
+
+  // Tutup menu saat user klik salah satu link di menu mobile
+  const mobileLinks = mobileMenu.querySelectorAll("a");
+  mobileLinks.forEach((link) => {
+    link.addEventListener("click", () => {
+      setTimeout(() => {
+        mobileMenu.classList.add("hidden");
+      }, 100);
+    });
+  });
+}
     </script>
 </body>
 </html>
